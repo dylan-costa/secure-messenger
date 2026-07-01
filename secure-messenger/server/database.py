@@ -1,22 +1,19 @@
-from shared.models import User, Message
-from typing import List
+#Database connection and setup
 
-# In-memory storage for now (replace with SQLite/Postgres later)
-users: List[User] = []
-messages: List[Message] = []
 
-def add_user(user: User):
-    users.append(user)
+from sqlalchemy import create_engine #database connection
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-def get_user(username: str):
-    for u in users:
-        if u.username == username:
-            return u
-    return None
 
-def store_message(message: Message):
-    messages.append(message)
 
-def get_messages_for_user(username: str):
-    # Return messages where receiver matches
-    return [m for m in messages if m.receiver == username]
+DATABASE_URL = "sqlite:///./secure_messenger.db"
+#engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL, 
+    connect_args={"check_same_thread": False}
+) #connect to the database
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) #create a session
+Base = declarative_base() #create a base class for the models
+
+
