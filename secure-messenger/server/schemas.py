@@ -1,8 +1,10 @@
+from datetime import datetime, timezone
 from pydantic import BaseModel
 
 class UserCreate(BaseModel):
     username: str
     password: str
+
 
 class UserResponse(BaseModel):
     id: int
@@ -21,6 +23,14 @@ class MessageResponse(BaseModel):
     sender_id: int
     receiver_id: int
     content: str
+    timestamp: datetime
 
     class Config:
         orm_mode = True
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+class LoginResponse(BaseModel):
+    message: str

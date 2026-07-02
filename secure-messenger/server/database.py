@@ -13,7 +13,19 @@ engine = create_engine(
     connect_args={"check_same_thread": False}
 ) #connect to the database
 
+
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) #create a session
+
+# Database session dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+        
 Base = declarative_base() #create a base class for the models
 
 
