@@ -5,14 +5,21 @@ function App() {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-    // Fetch users from the API
-  }, [])
-
+    fetch("http://localhost:3000/users")
+        .then((response) => response.json())
+        .then((data) => {
+            setUsers(data)
+        })
+}, [])
   return (
-    <div>
-      <h1>Secure Messenger</h1>
-    </div>
-  )
-}
+  <div>
+    <h1>Secure Messenger</h1>
 
+    {users.map((user) => (
+      <p>{user.username}</p>
+    ))}
+
+  </div>
+)
+}
 export default App
