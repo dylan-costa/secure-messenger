@@ -15,12 +15,16 @@ function App() {
         console.error(error)
       })
 }, [])
+  console.log(selectedUser)
   return (
   <div>
     <h1>Secure Messenger</h1>
 
     
-    <UserList users={users} />
+    <UserList
+    users={users}
+    setSelectedUser={setSelectedUser}
+    />
 
   </div>
 )

@@ -1,9 +1,14 @@
 
-function UserList({ users }) {
+function UserList({ users, setSelectedUser }) {
     return (
         <div>
             {users.map((user) => (
-                <p key={user.id}>{user.username}</p>
+                <p 
+                    key={user.id} 
+                    onClick={() => setSelectedUser(user)}
+                >
+                    {user.username}
+                </p>
             ))}
         </div>
     )
