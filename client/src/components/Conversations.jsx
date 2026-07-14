@@ -1,29 +1,51 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
+import MessageInput from "./MessageInput"
 
 
 function Conversation({currentUserId, selectedUser}) {
     const [messages, setMessages] = useState([])
-    useEffect(() => {
+
+    const loadMessages = () => {
         if (!selectedUser) {
             setMessages([])
-            return }
+            return
+        }
+
         fetch(`http://127.0.0.1:8000/conversations/${currentUserId}/${selectedUser.id}`)
             .then((response) => response.json())
             .then((data) => {
                 setMessages(data)
             })
-        
-        }
-    , [currentUserId, selectedUser])
+    }
+
+
+    useEffect(() => {
+        loadMessages()
+    }, [currentUserId, selectedUser])
+
 
     return (
-            <div>
-                {messages.map((message) => (
+        <div>
+            <h2>
+                {selectedUser ? selectedUser.username : "Select user"}
+            </h2>
+
+            {messages.map((message) => (
                 <p key={message.id}>
                     {message.content}
                 </p>
-                ))}
-            </div>
-            ) }
+            ))}
+
+
+            {selectedUser && (
+                <MessageInput
+                    currentUserId={currentUserId}
+                    selectedUser={selectedUser}
+                    onMessageSent={loadMessages}
+                />
+            )}
+        </div>
+    )
+}
 
 export default Conversation
