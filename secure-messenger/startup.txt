@@ -1,3 +1,0 @@
--check requirements match
--start up server in one terminal python -m uvicorn server.main:app --reload
--run ui.py python -m client.ui
