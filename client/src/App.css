@@ -17,6 +17,33 @@
   }
 }
 
+.message-row {
+    display: flex;
+    margin: 10px 0;
+}
+
+.sent {
+    justify-content: flex-end;
+}
+
+.received {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+.sent .message-bubble {
+    background-color: #DCF8C6;
+}
+
+.received .message-bubble {
+    background-color: #eee;
+}
+
 .hero {
   position: relative;
 

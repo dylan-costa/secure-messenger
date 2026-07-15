@@ -29,12 +29,30 @@ function Conversation({currentUserId, selectedUser}) {
             <h2>
                 {selectedUser ? selectedUser.username : "Select user"}
             </h2>
+            {messages.length === 0 && selectedUser && (
+            <p>No messages yet.</p>
+            )}
 
             {messages.map((message) => (
-                <p key={message.id}>
-                    {message.content}
-                </p>
-            ))}
+            <div
+                key={message.id}
+                className={
+                    message.sender_id === currentUserId
+                        ? "message-row sent"
+                        : "message-row received"
+                }
+            >
+                <div className="message-bubble">
+                    <strong>
+                        {message.sender_id === currentUserId
+                            ? "You"
+                            : selectedUser.username}
+                    </strong>
+
+                    <p>{message.content}</p>
+                </div>
+            </div>
+        ))}
 
 
             {selectedUser && (

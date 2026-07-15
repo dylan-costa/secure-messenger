@@ -45,7 +45,10 @@ function MessageInput({ currentUserId, selectedUser, onMessageSent }) {
                 placeholder="Type a message..."
             />
 
-            <button onClick={sendMessage}>
+            <button
+                disabled={!content.trim() || !selectedUser}
+                onClick={sendMessage}
+            >
                 Send
             </button>
         </div>
