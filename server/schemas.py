@@ -33,4 +33,8 @@ class LoginRequest(BaseModel):
     password: str
 
 class LoginResponse(BaseModel):
-    message: str
+    id: int
+    username: str
+
+    class Config:
+        orm_mode = True

@@ -14,4 +14,4 @@ def login(db: Session, request: schemas.LoginRequest):
     if user.password_hash != request.password:
         return None
 
-    return user
+    return schemas.LoginResponse(id=user.id, username=user.username)

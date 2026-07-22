@@ -18,5 +18,5 @@ def login(request: schemas.LoginRequest, db: Session = Depends(get_db)):
             detail="Invalid username or password"
         )
 
-    return {"message": "Login successful"}
+    return user
 
