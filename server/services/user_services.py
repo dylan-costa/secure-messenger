@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from server import models, schemas
+from server.services import password_services
 
 
 #create new user
@@ -15,7 +16,7 @@ def create_user(db: Session, user: schemas.UserCreate):
 
     new_user = models.User(
         username=user.username,
-        password_hash=user.password  # We'll hash this later.
+        password_hash=password_services.hash_password(user.password)
     )
 
     db.add(new_user)
