@@ -34,3 +34,5 @@ def get_messages(user_id: int, db: Session = Depends(get_db)):
 @router.get("/conversations/{user1_id}/{user2_id}", response_model=list[schemas.MessageResponse])
 def get_conversation(user1_id: int, user2_id: int, db: Session = Depends(get_db), limit: int = 50, offset: int = 0):
     return message_services.get_conversation(db, user1_id, user2_id, limit=limit, offset=offset)
+
+

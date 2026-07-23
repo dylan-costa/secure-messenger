@@ -11,7 +11,7 @@ class UserResponse(BaseModel):
     username: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class MessageCreate(BaseModel):
     sender_id: int
@@ -26,7 +26,7 @@ class MessageResponse(BaseModel):
     timestamp: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class LoginRequest(BaseModel):
     username: str
@@ -37,4 +37,24 @@ class LoginResponse(BaseModel):
     username: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+class ConversationCreate(BaseModel):
+
+    user1_id: int
+    user2_id: int
+
+    encryption_method: str
+
+class ConversationResponse(BaseModel):
+
+    id: int
+    user1_id: int
+    user2_id: int
+    encryption_method: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
