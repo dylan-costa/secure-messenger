@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from server import models, schemas
-from server.services import password_services
+from server.services import password_services, user_services
 
 
 def login(db: Session, request: schemas.LoginRequest):
@@ -18,7 +18,13 @@ def login(db: Session, request: schemas.LoginRequest):
     ):
         return None
 
+    keys = user_services.get_user_keys(db, user.id)
+
     return schemas.LoginResponse(
         id=user.id,
-        username=user.username
+        username=user.username,
+        keys=[
+            schemas.UserKeyResponse(method=key.method, public_key_json=key.public_key_json)
+            for key in keys
+        ]
     )

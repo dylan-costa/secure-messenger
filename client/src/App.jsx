@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import UserList from './components/UserList'
 import Conversation from './components/Conversations'
 import Login from './components/Login'
+import * as api from './api'
 
 function App() {
   const [users, setUsers] = useState([])
@@ -17,8 +18,7 @@ function App() {
       return
     }
 
-    fetch("http://127.0.0.1:8000/users")
-      .then((response) => response.json())
+    api.getUsers()
       .then((data) => {
         setUsers(data)
       })

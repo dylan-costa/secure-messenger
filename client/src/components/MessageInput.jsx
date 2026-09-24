@@ -1,40 +1,25 @@
-
-
 import { useState } from "react"
 
-function MessageInput({ currentUserId, selectedUser, onMessageSent }) {
+function MessageInput({ onSend, maxLength }) {
     const [content, setContent] = useState("")
+    const [error, setError] = useState("")
+
+    const overLimit = maxLength != null && content.length > maxLength
 
     const sendMessage = () => {
-        if (!content.trim() || !selectedUser) {
+        if (!content.trim() || overLimit) {
             return
         }
 
-        fetch("http://127.0.0.1:8000/messages", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                sender_id: currentUserId,
-                receiver_id: selectedUser.id,
-                content: content
-            })
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to send message")
-            }
+        setError("")
 
-            return response.json()
-        })
-        .then(() => {
-            setContent("")
-            onMessageSent()
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+        Promise.resolve(onSend(content))
+            .then(() => {
+                setContent("")
+            })
+            .catch((error) => {
+                setError(error.message)
+            })
     }
 
     return (
@@ -46,11 +31,20 @@ function MessageInput({ currentUserId, selectedUser, onMessageSent }) {
             />
 
             <button
-                disabled={!content.trim() || !selectedUser}
+                disabled={!content.trim() || overLimit}
                 onClick={sendMessage}
             >
                 Send
             </button>
+
+            {maxLength != null && (
+                <p>
+                    {content.length}/{maxLength} characters
+                    {overLimit && " — this encryption method can't fit a longer message in one go"}
+                </p>
+            )}
+
+            {error && <p>{error}</p>}
         </div>
     )
 }

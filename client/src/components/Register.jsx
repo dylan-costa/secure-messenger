@@ -1,28 +1,22 @@
 import { useState } from "react"
 import * as api from "../api"
-import Register from "./Register"
 
-function Login({ onLogin }) {
+function Register({ onRegistered, onSwitchToLogin }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
-    const [showRegister, setShowRegister] = useState(false)
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         setError("")
 
-        api.login(username, password)
+        api.createUser(username, password)
             .then((data) => {
                 localStorage.setItem("currentUser", JSON.stringify(data))
-                onLogin(data)
+                onRegistered(data)
             })
             .catch((error) => {
                 setError(error.message)
             })
-    }
-
-    if (showRegister) {
-        return <Register onRegistered={onLogin} onSwitchToLogin={() => setShowRegister(false)} />
     }
 
     return (
@@ -43,14 +37,14 @@ function Login({ onLogin }) {
                 onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button onClick={handleLogin}>
-                Login
+            <button onClick={handleRegister}>
+                Sign up
             </button>
 
             <p>
-                Need an account?{" "}
-                <a href="#" onClick={(e) => { e.preventDefault(); setShowRegister(true) }}>
-                    Sign up
+                Already have an account?{" "}
+                <a href="#" onClick={(e) => { e.preventDefault(); onSwitchToLogin() }}>
+                    Log in
                 </a>
             </p>
 
@@ -61,4 +55,4 @@ function Login({ onLogin }) {
     )
 }
 
-export default Login
+export default Register

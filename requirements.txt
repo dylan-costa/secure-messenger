@@ -1,4 +1,11 @@
-cryptography
 fastapi
 uvicorn
 requests
+sqlalchemy
+psycopg2-binary
+passlib[bcrypt]
+bcrypt<4.1
+pycryptodome
+sympy
+tinyec
+alembic

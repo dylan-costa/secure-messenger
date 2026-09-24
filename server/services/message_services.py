@@ -2,9 +2,16 @@
 
 from sqlalchemy.orm import Session
 from server import models
+from server.services import conversation_services
 from datetime import datetime, timezone
 
-def send_message(db: Session, sender_id: int, receiver_id: int, content: str):
+def send_message(
+    db: Session,
+    sender_id: int,
+    receiver_id: int,
+    ciphertext: str,
+    ciphertext_for_sender: str | None = None
+):
     sender = db.query(models.User).filter(models.User.id == sender_id).first()
     if sender is None:
         raise ValueError("Sender does not exist")
@@ -13,10 +20,14 @@ def send_message(db: Session, sender_id: int, receiver_id: int, content: str):
     if receiver is None:
         raise ValueError("Receiver does not exist")
 
+    conversation = conversation_services.get_conversation_between_users(db, sender_id, receiver_id)
+
     new_message = models.Message(
         sender_id=sender_id,
         receiver_id=receiver_id,
-        content=content,
+        conversation_id=conversation.id if conversation else None,
+        ciphertext=ciphertext,
+        ciphertext_for_sender=ciphertext_for_sender,
         timestamp=datetime.now(timezone.utc)  # Store timestamp in UTC
     )
 
