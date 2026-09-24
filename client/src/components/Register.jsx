@@ -20,37 +20,42 @@ function Register({ onRegistered, onSwitchToLogin }) {
     }
 
     return (
-        <div>
-            <h1>Secure Messenger</h1>
+        <div className="auth-screen">
+            <div className="auth-card">
+                <h1>Secure Messenger</h1>
+                <p className="auth-subtitle">Create an account</p>
 
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
+                <div className="auth-form">
+                    <input
+                        className="input"
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
 
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                    <input
+                        className="input"
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-            <button onClick={handleRegister}>
-                Sign up
-            </button>
+                    {error && <p className="form-error">{error}</p>}
 
-            <p>
-                Already have an account?{" "}
-                <a href="#" onClick={(e) => { e.preventDefault(); onSwitchToLogin() }}>
-                    Log in
-                </a>
-            </p>
+                    <button className="btn btn-primary" onClick={handleRegister}>
+                        Sign up
+                    </button>
+                </div>
 
-            {error && (
-                <p>{error}</p>
-            )}
+                <p className="auth-switch">
+                    Already have an account?{" "}
+                    <a href="#" onClick={(e) => { e.preventDefault(); onSwitchToLogin() }}>
+                        Log in
+                    </a>
+                </p>
+            </div>
         </div>
     )
 }

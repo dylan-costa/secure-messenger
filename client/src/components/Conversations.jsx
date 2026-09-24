@@ -203,8 +203,10 @@ function Conversation({ currentUserId, selectedUser }) {
 
     if (!selectedUser) {
         return (
-            <div>
-                <h2>Select user</h2>
+            <div className="chat-panel">
+                <div className="chat-empty">
+                    <p>Select a conversation to get started.</p>
+                </div>
             </div>
         )
     }
@@ -219,49 +221,57 @@ function Conversation({ currentUserId, selectedUser }) {
     })()
 
     return (
-        <div>
-            <h2>{selectedUser.username}</h2>
+        <div className="chat-panel">
+            <div className="chat-header">
+                <h2>{selectedUser.username}</h2>
+            </div>
 
-            {status === "loading" && <p>Loading conversation…</p>}
-            {status === "error" && <p>Error: {errorMessage}</p>}
+            {status === "loading" && <p className="status-banner">Loading conversation…</p>}
+            {status === "error" && <p className="status-banner error">Error: {errorMessage}</p>}
 
             {status === "choose-method" && (
-                <div>
+                <div className="method-picker">
                     <p>Start a secure conversation with {selectedUser.username}. Choose an encryption method:</p>
-                    {methods.ENCRYPTION_METHODS.map((m) => (
-                        <button key={m.id} onClick={() => handleChooseMethod(m.id)}>
-                            {m.label}
-                        </button>
-                    ))}
+                    <div className="method-picker-options">
+                        {methods.ENCRYPTION_METHODS.map((m) => (
+                            <button key={m.id} className="btn btn-primary" onClick={() => handleChooseMethod(m.id)}>
+                                {m.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             )}
 
             {status === "waiting-for-peer" && (
-                <p>Waiting for {selectedUser.username} to open this chat to finish the key exchange…</p>
+                <p className="status-banner">
+                    Waiting for {selectedUser.username} to open this chat to finish the key exchange…
+                </p>
             )}
 
             {status === "ready" && (
                 <>
-                    {messages.length === 0 && <p>No messages yet.</p>}
+                    <div className="message-list">
+                        {messages.length === 0 && <p className="message-list-empty">No messages yet.</p>}
 
-                    {messages.map((message) => (
-                        <div
-                            key={message.id}
-                            className={
-                                message.sender_id === currentUserId
-                                    ? "message-row sent"
-                                    : "message-row received"
-                            }
-                        >
-                            <div className="message-bubble">
-                                <strong>
-                                    {message.sender_id === currentUserId ? "You" : selectedUser.username}
-                                </strong>
+                        {messages.map((message) => (
+                            <div
+                                key={message.id}
+                                className={
+                                    message.sender_id === currentUserId
+                                        ? "message-row sent"
+                                        : "message-row received"
+                                }
+                            >
+                                <div className="message-bubble">
+                                    <strong className="message-sender">
+                                        {message.sender_id === currentUserId ? "You" : selectedUser.username}
+                                    </strong>
 
-                                <p>{message.text}</p>
+                                    <p>{message.text}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
 
                     <MessageInput onSend={handleSend} maxLength={maxMessageLength} />
                 </>

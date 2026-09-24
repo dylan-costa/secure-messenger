@@ -26,37 +26,42 @@ function Login({ onLogin }) {
     }
 
     return (
-        <div>
-            <h1>Secure Messenger</h1>
+        <div className="auth-screen">
+            <div className="auth-card">
+                <h1>Secure Messenger</h1>
+                <p className="auth-subtitle">Log in to continue</p>
 
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
+                <div className="auth-form">
+                    <input
+                        className="input"
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
 
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                    <input
+                        className="input"
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-            <button onClick={handleLogin}>
-                Login
-            </button>
+                    {error && <p className="form-error">{error}</p>}
 
-            <p>
-                Need an account?{" "}
-                <a href="#" onClick={(e) => { e.preventDefault(); setShowRegister(true) }}>
-                    Sign up
-                </a>
-            </p>
+                    <button className="btn btn-primary" onClick={handleLogin}>
+                        Login
+                    </button>
+                </div>
 
-            {error && (
-                <p>{error}</p>
-            )}
+                <p className="auth-switch">
+                    Need an account?{" "}
+                    <a href="#" onClick={(e) => { e.preventDefault(); setShowRegister(true) }}>
+                        Sign up
+                    </a>
+                </p>
+            </div>
         </div>
     )
 }

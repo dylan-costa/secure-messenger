@@ -31,32 +31,46 @@ function App() {
     return <Login onLogin={setCurrentUser} />
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser")
+    setCurrentUser(null)
+    setSelectedUser(null)
+  }
+
   return (
-  <div>
-    <h1>Secure Messenger</h1>
+    <div className="app-shell">
+      <header className="app-header">
+        <h1>Secure Messenger</h1>
 
-    <p>Logged in as: {currentUser.username}</p>
+        <div className="app-header-user">
+          <span>{currentUser.username}</span>
+          <button className="btn btn-ghost" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </header>
 
-    <button
-    onClick={() => {
-        localStorage.removeItem("currentUser")
-        setCurrentUser(null)
-    }}
-    >
-        Logout
-    </button>
+      <div className="app-body">
+        <UserList
+          users={users.filter((user) => user.id !== currentUser.id)}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+        />
 
-    <UserList
-      users={users}
-      setSelectedUser={setSelectedUser}
-    />
+        <Conversation
+          currentUserId={currentUser.id}
+          selectedUser={selectedUser}
+        />
+      </div>
 
-    <Conversation
-      currentUserId={currentUser.id}
-      selectedUser={selectedUser}
-    />
-  </div>
-)
+      <footer className="app-footer">
+        Built by{" "}
+        <a href="https://github.com/dylan-costa/secure-messenger" target="_blank" rel="noreferrer">
+          Dylan Costa
+        </a>
+      </footer>
+    </div>
+  )
 }
 
 export default App
